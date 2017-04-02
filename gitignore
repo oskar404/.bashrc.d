@@ -1,0 +1,25 @@
+# Files ignored by git
+*.o
+*~
+*.o2
+*.os
+*.d
+*.d2
+*.lo
+*.la
+*.al
+.libs
+*.so
+*.so.[0-9]*
+*.a
+*.pyc
+*.pyo
+*.rej
+#*#
+.#*
+.clang_complete
+.DS_Store
+.svn
+.minicppunit
+.sconsign.dblite
+core
