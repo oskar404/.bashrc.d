@@ -46,8 +46,13 @@ shopt -s checkwinsize
 
 
 # Set prompt. List git branch and status in prompt
-export GIT_PS1_SHOWDIRTYSTATE=1
-PS1="\h@\w\$(__git_ps1): "
+# Mac OSX does not seem to support __git_ps1
+if [ "$(uname)" == "Darwin" ]; then
+    PS1="\h:\w: "
+else
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    PS1="\h:\w\$(__git_ps1): "
+fi
 
 # Ignored file extensions in command completion
 export FIGNORE='.pyc:.o:.os'
