@@ -15,6 +15,39 @@ function cdn(){
     cd "${ARG:-$HOME}"
 }
 
+# Convert uppercase file and folder names to lower case.
+# usage: lcffile [-r] <dir>
+function lcfile(){
+    local DEPTH="-maxdepth 1"
+
+    while [ "$1" != "" ];
+    do
+        case "$1" in
+          -r)
+            local DEPTH=""
+            ;;
+          *)
+            local DIR=$1
+        esac
+        shift
+    done
+
+    if [ -z "${DIR}" ]; then
+        echo "lcfile [-r] <dir>"
+        return
+    fi
+
+    for SRC in $(find ${DIR} -depth ${DEPTH})
+    do
+        DST=$(dirname "${SRC}")/$(basename "${SRC}" | tr '[A-Z]' '[a-z]')
+        if [ "${SRC}" != "${DST}" ]
+        then
+            echo ${DST}
+            [ ! -e "${DST}" ] && mv -T "${SRC}" "${DST}" || echo "${SRC} was not renamed"
+        fi
+    done
+}
+
 # Generate a random password 
 # usage: genpasswd [length]
 function genpasswd() {
