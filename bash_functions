@@ -103,5 +103,5 @@ function @duckduckgo {
 
 # Search from sanakirja.org. Translate from Finnish to English
 function @sanakirja {
-    xdg-open "http://www.sanakirja.org/search.php?l=17&l2=3&q=$*"
+    xdg-open "https://www.sanakirja.org/search.php?l=17&l2=3&q=$*"
 }
