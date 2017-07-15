@@ -14,7 +14,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Makes bash update easier
-alias re-bash="cd ${HOME}/.bashrc.d; git pull --rebase; cd -"
+alias re-bash="cd ${HOME}/.bashrc.d; git pull --rebase; source ${HOME}/.bashrc; cd -"
 
 # Aliases for file and directory operations
 alias ll='ls -ltrh'
