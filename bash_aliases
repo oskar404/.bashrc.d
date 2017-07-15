@@ -37,4 +37,5 @@ alias webs='python -m SimpleHTTPServer'
 
 # Just for fun
 alias frak="fortune"
+alias yt="xdg-open https://youtube.com"
 
