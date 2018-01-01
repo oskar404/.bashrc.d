@@ -1,6 +1,7 @@
-# Prepare the bash environment: PATH, completion, history, prompt etc
+# The main .bashrc file preparing the interactive bash environment
+# Symlink this to ${HOME} directory as .bashrc
 #
-# Usage source ${HOME}/.bashrc.d/bashrc
+# Prepare the bash environment: PATH, completion, history, prompt etc
 #
 
 
@@ -24,6 +25,9 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Ignored file extensions in command completion
+export FIGNORE='.pyc:.o:.os'
 
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -54,13 +58,21 @@ else
     PS1="\h:\w\$(__git_ps1): "
 fi
 
-# Ignored file extensions in command completion
-export FIGNORE='.pyc:.o:.os'
 
 # Default editors
 export EDITOR=nano
 export GIT_EDITOR=nano
 
+
 # Fix perl locale problem (git uses perl)
 export LC_ALL=en_US.UTF-8
+
+
+# Source the configurations in .bashrc.d directory
+if [ -d "$HOME/.bashrc.d" ] ; then
+    for CONF in $(ls $HOME/.bashrc.d/*.conf)
+    do
+        source $CONF
+    done
+fi
 
