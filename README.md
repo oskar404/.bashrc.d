@@ -28,3 +28,6 @@ $ ln -s ~/.bashrc.d/bashrc ~/.bashrc
 $ cp -i ~/.bashrc.d/gitconfig.main ~/.gitconfig
 ```
 
+The `bashrc` example sources all `~/.bashrc.d/*.conf` files found. The `bashrc`
+is self-contained so it can be simply copied as local file and modified.
+
