@@ -79,6 +79,7 @@ fi
 # Default editors
 export EDITOR=nano
 export GIT_EDITOR=nano
+export GUI_EDITOR=gedit
 
 # Fix perl locale problem (git uses perl)
 export LC_ALL=en_US.UTF-8
@@ -86,6 +87,41 @@ export LC_ALL=en_US.UTF-8
 
 ################################################################################
 # Functions
+
+# View or edit markdown file
+# This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
+# usage: mdhelper <file>
+function mdhelper() {
+    local USAGE="mdhelper <file> [-e|--edit]"
+    local FILE=$1
+    shift
+    local EDIT="v"
+    while [ "$1" != "" ];
+    do
+        case "$1" in
+          -e)
+            local EDIT="e"
+            ;;
+          --edit)
+            local EDIT="e"
+            ;;
+          *)
+            echo $USAGE
+            return
+            ;;
+        esac
+        shift
+    done
+
+    if [ "${EDIT}" == "e" ]; then
+        ${GUI_EDITOR} "${FILE}"&
+    else
+        which mdv >/dev/null
+        local MDV=$?
+        [ "${MDV}" != "0" ] && (echo "missing mdv tool"; return)
+        [ -e "${FILE}" ] && mdv -t 528.9419 ${FILE} || echo "missing file: ${FILE}"
+    fi
+}
 
 # cd multiple levels down
 # usage: cdn <number>
@@ -220,7 +256,7 @@ fi
 alias ll='ls -ltrh'
 alias la='ls -A'
 alias grip='grep -rIi'
-alias e='gedit'
+alias e='${GUI_EDITOR}'
 alias scat='sudo cat'
 alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
 
@@ -234,6 +270,10 @@ alias mtop='top -o %MEM' #memory
 
 # Quick HTTP/webserver for local files
 alias webs='python -m SimpleHTTPServer'
+
+# Some files where notes, todos etc are collected
+alias todo='mdhelper "${HOME}"/todo.md'
+alias notes='mdhelper "${HOME}"/notes.md'
 
 # Just for fun
 alias frak="fortune"
