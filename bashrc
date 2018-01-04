@@ -88,6 +88,29 @@ export LC_ALL=en_US.UTF-8
 ################################################################################
 # Functions
 
+# Loop command N-times. Fail if command return value is non-zero
+# usage: loop [-h] <counter> <path-to-program> [command args]
+function loop {
+    local USAGE="loop [-h] <counter> <path-to-program> [command args]"
+    local CNTR=0
+    [ -z "$1" ] && echo $USAGE && return
+    case $1 in
+      -h)
+        echo $USAGE; return
+        ;;
+      *)
+        local CNTR=$1
+    esac
+    shift
+    local PROG=$@
+    [ "${PROG}" == "" ] && echo $USAGE && return
+    for i in $(seq 1 ${CNTR}); do
+        ${PROG}
+        local RET=$?
+        [ "${RET}" != "0" ] && echo "run $i fail: ${RET}" && return
+    done
+}
+
 # View or edit markdown file
 # This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
 # usage: mdhelper <file>
