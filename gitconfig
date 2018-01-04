@@ -7,6 +7,7 @@
     rl = log --graph --pretty=format:'%h - %cn :%Cgreen%d%Creset %s'
     up = fetch --prune --tags
     update = fetch --prune --tags
+    has = branch -a --contains
     last = log -1 HEAD
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
