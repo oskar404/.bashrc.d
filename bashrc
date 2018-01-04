@@ -91,7 +91,7 @@ export LC_ALL=en_US.UTF-8
 # Loop command N-times. Fail if command return value is non-zero
 # usage: loop [-h] <counter> <path-to-program> [command args]
 function loop {
-    local USAGE="loop [-h] <counter> <path-to-program> [command args]"
+    local USAGE="usage: loop [-h] <counter> <path-to-program> [command args]"
     local CNTR=0
     [ -z "$1" ] && echo $USAGE && return
     case $1 in
@@ -102,6 +102,7 @@ function loop {
         local CNTR=$1
     esac
     shift
+
     local PROG=$@
     [ "${PROG}" == "" ] && echo $USAGE && return
     for i in $(seq 1 ${CNTR}); do
@@ -115,12 +116,11 @@ function loop {
 # This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
 # usage: mdhelper <file>
 function mdhelper() {
-    local USAGE="mdhelper <file> [-e|--edit]"
+    local USAGE="usage: mdhelper <file> [-e|--edit]"
     local FILE=$1
     shift
     local EDIT="v"
-    while [ "$1" != "" ];
-    do
+    while [ "$1" != "" ]; do
         case "$1" in
           -e)
             local EDIT="e"
@@ -129,8 +129,7 @@ function mdhelper() {
             local EDIT="e"
             ;;
           *)
-            echo $USAGE
-            return
+            echo $USAGE; return
             ;;
         esac
         shift
@@ -141,7 +140,7 @@ function mdhelper() {
     else
         which mdv >/dev/null
         local MDV=$?
-        [ "${MDV}" != "0" ] && (echo "missing mdv tool"; return)
+        [ "${MDV}" != "0" ] && echo "missing mdv tool" && return
         [ -e "${FILE}" ] && mdv -t 528.9419 ${FILE} || echo "missing file: ${FILE}"
     fi
 }
@@ -151,8 +150,7 @@ function mdhelper() {
 function cdn(){
     local LVL=${1:-0}
     local ARG=""
-    for (( i=0; i<${LVL}; i++))
-    do
+    for (( i=0; i<${LVL}; i++)); do
         ARG="${ARG}../"
     done
     cd "${ARG:-$HOME}"
@@ -163,9 +161,7 @@ function cdn(){
 function update_git_repo(){
     if [ -d "$1" ]; then
         cd "$1"
-        if [ -d .git ]; then
-            git pull --rebase
-        fi
+        [ -d .git ] && git pull --rebase
         cd -
     fi
 }
@@ -175,8 +171,7 @@ function update_git_repo(){
 function lcfile(){
     local DEPTH="-maxdepth 1"
 
-    while [ "$1" != "" ];
-    do
+    while [ "$1" != "" ]; do
         case "$1" in
           -r)
             local DEPTH=""
@@ -187,13 +182,9 @@ function lcfile(){
         shift
     done
 
-    if [ -z "${DIR}" ]; then
-        echo "lcfile [-r] <dir>"
-        return
-    fi
+    [ -z "${DIR}" ] && echo "usage: lcfile [-r] <dir>" && return
 
-    for SRC in $(find ${DIR} -depth ${DEPTH})
-    do
+    for SRC in $(find ${DIR} -depth ${DEPTH}); do
         DST=$(dirname "${SRC}")/$(basename "${SRC}" | tr '[A-Z]' '[a-z]')
         if [ "${SRC}" != "${DST}" ]
         then
@@ -230,12 +221,8 @@ function rot13()
 
 # Show threads of a process
 function atop() {
-    local TESTAPP=$1
-    if [ -n "${TESTAPP}" ]; then
-        top -H -p $(pgrep ${TESTAPP})
-    else
-        echo "usage: atop <process-name>"
-    fi
+    [ -z "$1" ] && echo "usage: atop <process-name>" && return
+    top -H -p $(pgrep $1)
 }
 
 # List of most used commands in history
