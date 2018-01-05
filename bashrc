@@ -248,6 +248,16 @@ function @sanakirja {
     xdg-open "https://www.sanakirja.org/search.php?l=17&l2=3&q=$*"
 }
 
+# Search from sanakirja.org. Translate from English to Finnish
+function @dictionary {
+    xdg-open "https://www.sanakirja.org/search.php?l=3&l2=17&q=$*"
+}
+
+# Search from stackoverflow.com / open browser
+function @stackoverflow {
+    xdg-open "https://stackoverflow.com/search?q=$*"
+}
+
 
 ################################################################################
 # Aliases
@@ -275,6 +285,12 @@ alias gt='qgit --all -n 10000' # Start git GUI
 # Process aliases
 alias ctop='top -o %CPU' #cpu
 alias mtop='top -o %MEM' #memory
+
+# Network aliases
+alias publicip='curl https://ifcfg.me/all'
+# alias publicip='curl http://ipinfo.io/ip'
+alias shieldsup='xdg-open https://www.grc.com/shieldsup'
+allias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 
 # Quick HTTP/webserver for local files
 alias webs='python -m SimpleHTTPServer'
