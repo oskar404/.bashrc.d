@@ -93,10 +93,10 @@ export LC_ALL=en_US.UTF-8
 function loop {
     local USAGE="usage: loop [-h] <counter> <path-to-program> [command args]"
     local CNTR=0
-    [ -z "$1" ] && echo $USAGE && return
+    [ -z "$1" ] && (>&2 echo $USAGE) && return
     case $1 in
       -h)
-        echo $USAGE; return
+        (>&2 echo $USAGE); return
         ;;
       *)
         local CNTR=$1
@@ -104,11 +104,11 @@ function loop {
     shift
 
     local PROG=$@
-    [ "${PROG}" == "" ] && echo $USAGE && return
+    [ "${PROG}" == "" ] && (>&2 echo $USAGE) && return
     for i in $(seq 1 ${CNTR}); do
         ${PROG}
         local RET=$?
-        [ "${RET}" != "0" ] && echo "run $i fail: ${RET}" && return
+        [ "${RET}" != "0" ] && (>&2 echo "run $i fail: ${RET}") && return
     done
 }
 
@@ -129,7 +129,7 @@ function mdhelper() {
             local EDIT="e"
             ;;
           *)
-            echo $USAGE; return
+            (>&2 echo $USAGE); return
             ;;
         esac
         shift
@@ -140,8 +140,8 @@ function mdhelper() {
     else
         which mdv >/dev/null
         local MDV=$?
-        [ "${MDV}" != "0" ] && echo "missing mdv tool" && return
-        [ -e "${FILE}" ] && mdv -t 528.9419 ${FILE} || echo "missing file: ${FILE}"
+        [ "${MDV}" != "0" ] && (>&2 echo "missing mdv tool") && return
+        [ -e "${FILE}" ] && mdv -t 528.9419 ${FILE} || (>&2 echo "missing file: ${FILE}")
     fi
 }
 
@@ -182,14 +182,14 @@ function lcfile(){
         shift
     done
 
-    [ -z "${DIR}" ] && echo "usage: lcfile [-r] <dir>" && return
+    [ -z "${DIR}" ] && (>&2 echo "usage: lcfile [-r] <dir>") && return
 
     for SRC in $(find ${DIR} -depth ${DEPTH}); do
         DST=$(dirname "${SRC}")/$(basename "${SRC}" | tr '[A-Z]' '[a-z]')
         if [ "${SRC}" != "${DST}" ]
         then
             echo ${DST}
-            [ ! -e "${DST}" ] && mv -T "${SRC}" "${DST}" || echo "${SRC} was not renamed"
+            [ ! -e "${DST}" ] && mv -T "${SRC}" "${DST}" || (>&2 echo "${SRC} was not renamed")
         fi
     done
 }
@@ -221,7 +221,7 @@ function rot13()
 
 # Show threads of a process
 function atop() {
-    [ -z "$1" ] && echo "usage: atop <process-name>" && return
+    [ -z "$1" ] && (>&2 echo "usage: atop <process-name>") && return
     top -H -p $(pgrep $1)
 }
 
