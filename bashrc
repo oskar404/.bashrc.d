@@ -141,7 +141,7 @@ function mdhelper() {
         which mdv >/dev/null
         local MDV=$?
         [ "${MDV}" != "0" ] && (>&2 echo "missing mdv tool") && return
-        [ -e "${FILE}" ] && mdv -t 528.9419 ${FILE} || (>&2 echo "missing file: ${FILE}")
+        [ -e "${FILE}" ] && (mdv -t 528.9419 ${FILE} | less -r) || (>&2 echo "missing file: ${FILE}")
     fi
 }
 
