@@ -273,7 +273,10 @@ fi
 # Aliases for file and directory operations
 alias ll='ls -ltrh'
 alias la='ls -A'
-alias grip='grep -rIi'
+alias grip='grep --color -rIi'
+alias gripc='find . -regextype posix-extended -regex "^.*\.(cpp|hpp|c|h)$" | grep -ve "^\.\/debian" | xargs -d "\n" grep --color -Ii'
+alias grippy='find . -name "*.py" -print0 | xargs -0 grep --color -Ii'
+alias gripr='find . -regex ".*\.[rR]" -print0 | xargs -0 grep --color -Ii'
 alias e='${GUI_EDITOR}'
 alias scat='sudo cat'
 alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
