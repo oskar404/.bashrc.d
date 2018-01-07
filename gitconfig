@@ -5,8 +5,7 @@
     br = branch
     st = status
     rl = log --graph --pretty=format:'%h - %cn :%Cgreen%d%Creset %s'
-    up = fetch --prune --tags
-    update = fetch --prune --tags
+    up = fetch --all --prune --tags
     has = branch -a --contains
     last = log -1 HEAD
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -14,6 +13,8 @@
     rotten = for-each-ref --sort=committerdate refs/remotes/ --format='%(authordate)\t%(refname:short)::%(authorname)'
 [color] 
     ui = auto
+[rerere]
+    enabled = true
 [push]
     default = simple
     followTags = true

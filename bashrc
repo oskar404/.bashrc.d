@@ -286,7 +286,7 @@ alias scat='sudo cat'
 alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
 
 # Git aliases
-alias up='git fetch --prune; git fetch --tags'
+alias up='git up' # Use git alias
 alias gt='qgit --all -n 10000' # Start git GUI
 
 # Process aliases
