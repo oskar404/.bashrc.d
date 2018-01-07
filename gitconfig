@@ -1,5 +1,8 @@
 [core]
     excludesfile = ~/.bashrc.d/gitignore
+    whitespace = trailing-space,space-before-tab
+[include]
+    path = ~/.bashrc.d/gitconfig.user
 [alias]
     co = checkout
     br = branch

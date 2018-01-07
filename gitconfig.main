@@ -1,8 +1,0 @@
-# The main .gitconfig example file including the separate config file
-# Copy this to ${HOME} directory as .gitconfig and edit the [user] data
-
-[user]
-    email = user.name@example.com
-    name = User Name
-[include]
-    path = ~/.bashrc.d/gitconfig
