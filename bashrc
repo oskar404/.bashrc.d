@@ -169,10 +169,14 @@ function update_git_repo(){
 # Convert uppercase file and folder names to lower case.
 # usage: lcffile [-r] <dir>
 function lcfile(){
+    local USAGE="usage: lcfile [-r] <dir>"
     local DEPTH="-maxdepth 1"
 
     while [ "$1" != "" ]; do
         case "$1" in
+          -h)
+            (>&2 echo $USAGE); return
+            ;;
           -r)
             local DEPTH=""
             ;;
@@ -182,7 +186,7 @@ function lcfile(){
         shift
     done
 
-    [ -z "${DIR}" ] && (>&2 echo "usage: lcfile [-r] <dir>") && return
+    [ -z "${DIR}" ] && (>&2 echo $USAGE) && return
 
     for SRC in $(find ${DIR} -depth ${DEPTH}); do
         DST=$(dirname "${SRC}")/$(basename "${SRC}" | tr '[A-Z]' '[a-z]')
