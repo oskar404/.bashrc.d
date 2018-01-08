@@ -333,5 +333,6 @@ if [ -d "${BASHCONFD}" ]; then
 fi
 
 # Make bash environment update easier
-alias re-bash="update_git_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc"
+alias re-bash='update_git_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
+alias re-edit='${GUI_EDITOR} "${HOME}"/.bashrc &'
 
