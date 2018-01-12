@@ -198,6 +198,15 @@ function lcfile(){
     done
 }
 
+# Trim whitespace from the end of lines
+# usage: trim_ws <file> [<file> ..]
+function trim_ws(){
+    local USAGE="usage: trim_ws <file> [<file> ..]"
+    [ -z "$1" ] && (>&2 echo $USAGE) && return
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    sed -i 's/[ \t]*$//' $@
+}
+
 # Generate a random password
 # usage: genpasswd [length]
 function genpasswd() {
