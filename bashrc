@@ -198,13 +198,28 @@ function lcfile(){
     done
 }
 
-# Trim whitespace from the end of lines
+# Trim trailing whitespace
 # usage: trim_ws <file> [<file> ..]
 function trim_ws(){
     local USAGE="usage: trim_ws <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     sed -i 's/[ \t]*$//' $@
+}
+
+# Replace tabs with spaces
+# usage: trim_tab <file> [<file> ..]
+function trim_tab(){
+    local USAGE="usage: trim_tab <file> [<file> ..]"
+    [ -z "$1" ] && (>&2 echo $USAGE) && return
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    which sponge >/dev/null
+    local EXIST=$?
+    [ "${EXIST}" != "0" ] && (>&2 echo "Missing sponge. Install moreutils") && return
+    while [ "$1" != "" ]; do
+        expand -t 4 "$1" | sponge "$1"
+        shift
+    done
 }
 
 # Generate a random password
