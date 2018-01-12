@@ -14,7 +14,7 @@
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     rotten = for-each-ref --sort=committerdate refs/remotes/ --format='%(authordate)\t%(refname:short)::%(authorname)'
-[color] 
+[color]
     ui = auto
 [rerere]
     enabled = true
