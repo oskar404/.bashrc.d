@@ -286,6 +286,16 @@ function @stackoverflow {
     xdg-open "https://stackoverflow.com/search?q=$*"
 }
 
+# Find all c and cpp src files in dir
+# usage: c-src [dir]
+function c-src {
+    local USAGE="usage: c-src [dir]"
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    local SRC=.
+    [ -n "$1" ] && local SRC="$1"
+    find ${SRC} -regextype posix-extended -regex "^.*\.(cpp|hpp|c|h)$" | grep -ve "^\.\/debian"
+}
+
 
 ################################################################################
 # Aliases
@@ -302,9 +312,10 @@ fi
 alias ll='ls -ltrh'
 alias la='ls -A'
 alias grip='grep --color -rIi'
-alias gripc='find . -regextype posix-extended -regex "^.*\.(cpp|hpp|c|h)$" | grep -ve "^\.\/debian" | xargs -d "\n" grep --color -Ii'
+alias gripc='c-src | xargs -d "\n" grep --color -Ii'
 alias grippy='find . -name "*.py" -print0 | xargs -0 grep --color -Ii'
 alias gripr='find . -regex ".*\.[rR]" -print0 | xargs -0 grep --color -Ii'
+alias lc='c-src | xargs -d "\n" cat | wc -l'
 alias e='${GUI_EDITOR}'
 alias scat='sudo cat'
 alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
