@@ -331,6 +331,7 @@ alias mtop='top -o %MEM' #memory
 # Network aliases
 alias publicip='curl https://ifcfg.me/all'
 # alias publicip='curl http://ipinfo.io/ip'
+alias myip='hostname -I'
 alias shieldsup='xdg-open https://www.grc.com/shieldsup'
 alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 
