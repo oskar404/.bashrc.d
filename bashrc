@@ -296,6 +296,17 @@ function c-src {
     find ${SRC} -regextype posix-extended -regex "^.*\.(cpp|hpp|c|h)$" | grep -ve "^\.\/debian"
 }
 
+# Get country / location information of an IP address
+# usage: ip-locator <ip> [<ip>..]
+function ip-locator {
+    local USAGE="usage: ip-locator <ip> [<ip>..]"
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    curl ipinfo.io/$1 && shift
+    while [ "$1" != "" ]; do
+        curl ipinfo.io/$1
+        shift
+    done
+}
 
 ################################################################################
 # Aliases
@@ -333,6 +344,7 @@ alias publicip='curl https://ifcfg.me/all'
 # alias publicip='curl http://ipinfo.io/ip'
 alias myip='hostname -I'
 alias getip='dig +short @resolver1.opendns.com'
+alias ipcountry='dig +short @resolver1.opendns.com'
 alias shieldsup='xdg-open https://www.grc.com/shieldsup'
 alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 
