@@ -46,15 +46,18 @@ export FIGNORE='.pyc:.o:.os'
 
 ################################################################################
 # History
+#
+# Nice tutorial:
+# https://www.digitalocean.com/community/tutorials/how-to-use-bash-history-commands-and-expansions-on-a-linux-vps
 
 # Configure how the history is written
 export HISTSIZE=10000
 export HISTFILESIZE=100000
 export HISTCONTROL=ignoreboth
-export HISTIGNORE='ls:ll:la:cd:exit:clear:history'
+export HISTIGNORE='ls:ll:la:lc:cd:gt:up:todo:exit:clear:hist:history'
 shopt -s histappend
 shopt -s cmdhist
-export PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
+shopt -u lithist
 
 
 ################################################################################
@@ -371,9 +374,10 @@ alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 # Quick HTTP/webserver for local files
 alias webs='python -m SimpleHTTPServer'
 
-# Some files where notes, todos etc are collected
+# Some files where notes, todos etc are collected + other house keeping
 alias todo='mdhelper "${HOME}"/todo.md'
 alias notes='mdhelper "${HOME}"/notes.md'
+alias hist='history -a; history -c; history -r'
 
 # Just for fun
 alias frak="fortune"
