@@ -87,6 +87,11 @@ export GUI_EDITOR=gedit
 # Fix perl locale problem (git uses perl)
 export LC_ALL=en_US.UTF-8
 
+# Imrpove interactive usage of the shell with some glob
+shopt -s cdspell
+shopt -s dirspell
+shopt -s globstar
+
 
 ################################################################################
 # Functions
