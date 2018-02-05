@@ -294,6 +294,12 @@ function @stackoverflow {
     xdg-open "https://stackoverflow.com/search?q=$*"
 }
 
+# Search from haveibeenpwned.com
+function @pwned {
+    curl https://haveibeenpwned.com/api/v2/breachedaccount/$*?truncateResponse=true
+    echo ""
+}
+
 # Find all c and cpp src files in dir
 # usage: c-src [dir]
 function c-src {
