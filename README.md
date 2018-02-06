@@ -22,11 +22,9 @@ To install simply clone the repo into `~/.bashrc.d` directory and symlink the
 `gitconfig` to home as `.gitconfig`. Just to be safe make backup copies of
 your previous config files.
 
-```bash
-$ git clone git@github.com:oskar404/.bashrc.d.git ~/.bashrc.d
-$ ln -s ~/.bashrc.d/bashrc ~/.bashrc
-$ ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
-```
+    $ git clone git@github.com:oskar404/.bashrc.d.git ~/.bashrc.d
+    $ ln -s ~/.bashrc.d/bashrc ~/.bashrc
+    $ ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
 
 The `bashrc` example sources all `~/.bashrc.d/*.conf` files found. The `bashrc`
 is self-contained so it can be simply copied as local file and modified.
@@ -34,9 +32,21 @@ is self-contained so it can be simply copied as local file and modified.
 The `gitconfig` sources `~/.bashrc.d/gitconfig.user` file. Add your user
 information into file. See example below.
 
-```
-[user]
-    email = user.name@example.com
-    name = User Name
+    [user]
+        email = user.name@example.com
+        name = User Name
 
-```
+
+Usage
+-----
+
+To see what the `bashrc` does there are two quick command which will list the
+utilities availble in the environment:
+
+    alias
+
+which lists the available aliases and
+
+    declare -F | grep -v "declare -f _"
+
+which lists the declared functions in the environment.
