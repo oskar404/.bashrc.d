@@ -96,6 +96,52 @@ shopt -s globstar
 ################################################################################
 # Functions
 
+function _howto_helper {
+    echo ""
+    echo "# Functions"
+    echo ""
+    echo "To list function details: declare -f <function>"
+    echo ""
+    declare -F | grep -v "declare -f _" | grep -v command_not_found_handle
+    echo ""
+    echo "# Aliases"
+    echo ""
+    alias
+}
+
+# Print HOWTO help to screen
+# usage: howto [-e]
+function howto {
+    local USAGE="usage: howto [-e]"
+    local FILE=${HOME}/howto.txt
+    local EDIT="v"
+    while [ "$1" != "" ]; do
+        case "$1" in
+          -e)
+            local EDIT="e"
+            ;;
+          --edit)
+            local EDIT="e"
+            ;;
+          *)
+            (>&2 echo $USAGE); return
+            ;;
+        esac
+        shift
+    done
+
+    if [ "${EDIT}" == "e" ]; then
+        ${GUI_EDITOR} "${FILE}"&
+    else
+        if [ ! -e "${FILE}" ]; then
+            echo "# How-to help" >${FILE}
+            echo "" >>${FILE}
+            echo "Add local help to this file. To edit: howto -e" >>${FILE}
+        fi
+        (cat ${FILE} ; _howto_helper) | less -r -X -F
+    fi
+}
+
 # Loop command N-times. Fail if command return value is non-zero
 # usage: loop [-h] <counter> <path-to-program> [command args]
 function loop {

@@ -40,13 +40,12 @@ information into file. See example below.
 Usage
 -----
 
-To see what the `bashrc` does there are two quick command which will list the
-utilities availble in the environment:
+To see what the `bashrc` contains there is a `howto` command which lists the
+functions and aliases:
 
-    alias
+    howto
 
-which lists the available aliases and
+To add own local help and notes the `howto.txt` file can be edited:
 
-    declare -F | grep -v "declare -f _"
+    howto -e
 
-which lists the declared functions in the environment.
