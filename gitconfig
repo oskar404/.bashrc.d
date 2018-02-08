@@ -14,6 +14,7 @@
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     rotten = for-each-ref --sort=committerdate refs/remotes/ --format='%(authordate)\t%(refname:short)::%(authorname)'
+    la = !git config -l | grep alias | cut -c 7-
 [color]
     ui = auto
 [rerere]
