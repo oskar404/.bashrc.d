@@ -106,7 +106,11 @@ function _howto_helper {
     echo ""
     echo "# Aliases"
     echo ""
-    alias
+    alias | sort
+    echo ""
+    echo "# Git Aliases"
+    echo ""
+    git config -l | grep alias | cut -c 7- | sort
 }
 
 # Print HOWTO help to screen
