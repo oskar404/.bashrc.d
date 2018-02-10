@@ -102,15 +102,23 @@ function _howto_helper {
     echo ""
     echo "To list function details: declare -f <function>"
     echo ""
-    declare -F | grep -v "declare -f _" | grep -v command_not_found_handle
+    local LIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | awk '{print $3}')
+    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
     echo ""
     echo "# Aliases"
     echo ""
-    alias | sort
+    echo "To list alias details: alias <alias-name>"
+    echo ""
+    local LIST=$(alias | sort | awk -F "=" '{print $1}' | awk '{print $2}')
+    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
     echo ""
     echo "# Git Aliases"
     echo ""
-    git config -l | grep alias | cut -c 7- | sort
+    echo "To list git alias details: git config --get-regexp alias.<name>"
+    echo ""
+    local LIST=$(git config -l | grep alias | cut -c 7- | sort | awk -F "=" '{print $1}')
+    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
+    echo ""
 }
 
 # Print HOWTO help to screen
