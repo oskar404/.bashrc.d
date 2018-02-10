@@ -8,6 +8,7 @@
     rl = log --graph --pretty=format:'%h - %cn :%Cgreen%d%Creset %s'
     up = fetch --all --prune --tags
     has = branch -a --contains
+    done = branch -a --merged
     last = log -1 HEAD
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
