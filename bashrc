@@ -94,7 +94,7 @@ shopt -s globstar
 
 
 ################################################################################
-# Functions
+# Internal Helper Functions
 
 function _howto_helper {
     echo ""
@@ -102,7 +102,7 @@ function _howto_helper {
     echo ""
     echo "To list function details: declare -f <function>"
     echo ""
-    local LIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | awk '{print $3}')
+    local LIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | grep -v in_array | grep -v quote | awk '{print $3}')
     printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
     echo ""
     echo "# Aliases"
@@ -120,6 +120,52 @@ function _howto_helper {
     printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
     echo ""
 }
+
+# View or edit markdown file
+# This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
+function _mdhelper() {
+    local USAGE="usage: _mdhelper <file> [-e|--edit]"
+    local FILE=$1
+    shift
+    local EDIT="v"
+    while [ "$1" != "" ]; do
+        case "$1" in
+          -e)
+            local EDIT="e"
+            ;;
+          --edit)
+            local EDIT="e"
+            ;;
+          *)
+            (>&2 echo $USAGE); return
+            ;;
+        esac
+        shift
+    done
+
+    if [ "${EDIT}" == "e" ]; then
+        ${GUI_EDITOR} "${FILE}"&
+    else
+        which mdv >/dev/null
+        local MDV=$?
+        [ "${MDV}" != "0" ] && (>&2 echo "missing mdv tool") && return
+        [ -e "${FILE}" ] && (mdv -t 528.9419 ${FILE} | less -r -X -F) || (>&2 echo "missing file: ${FILE}")
+    fi
+}
+
+# Update git repo. Tries to do 'git pull --rebase' if directory is a git repo
+# usage: _update_git_repo <dir>
+function _update_git_repo(){
+    if [ -d "$1" ]; then
+        cd "$1"
+        [ -d .git ] && git pull --rebase
+        cd -
+    fi
+}
+
+
+################################################################################
+# Public Functions
 
 # Print HOWTO help to screen
 # usage: howto [-e]
@@ -178,39 +224,6 @@ function loop {
     done
 }
 
-# View or edit markdown file
-# This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
-# usage: mdhelper <file>
-function mdhelper() {
-    local USAGE="usage: mdhelper <file> [-e|--edit]"
-    local FILE=$1
-    shift
-    local EDIT="v"
-    while [ "$1" != "" ]; do
-        case "$1" in
-          -e)
-            local EDIT="e"
-            ;;
-          --edit)
-            local EDIT="e"
-            ;;
-          *)
-            (>&2 echo $USAGE); return
-            ;;
-        esac
-        shift
-    done
-
-    if [ "${EDIT}" == "e" ]; then
-        ${GUI_EDITOR} "${FILE}"&
-    else
-        which mdv >/dev/null
-        local MDV=$?
-        [ "${MDV}" != "0" ] && (>&2 echo "missing mdv tool") && return
-        [ -e "${FILE}" ] && (mdv -t 528.9419 ${FILE} | less -r -X -F) || (>&2 echo "missing file: ${FILE}")
-    fi
-}
-
 # cd multiple levels down
 # usage: cdn <number>
 function cdn(){
@@ -220,16 +233,6 @@ function cdn(){
         ARG="${ARG}../"
     done
     cd "${ARG:-$HOME}"
-}
-
-# Update git repo. Tries to do 'git pull --rebase' if directory is a git repo
-# usage: update_git_repo <dir>
-function update_git_repo(){
-    if [ -d "$1" ]; then
-        cd "$1"
-        [ -d .git ] && git pull --rebase
-        cd -
-    fi
 }
 
 # Convert uppercase file and folder names to lower case.
@@ -265,18 +268,18 @@ function lcfile(){
 }
 
 # Trim trailing whitespace
-# usage: trim_ws <file> [<file> ..]
-function trim_ws(){
-    local USAGE="usage: trim_ws <file> [<file> ..]"
+# usage: trim-ws <file> [<file> ..]
+function trim-ws(){
+    local USAGE="usage: trim-ws <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     sed -i 's/[ \t]*$//' $@
 }
 
 # Replace tabs with spaces
-# usage: trim_tab <file> [<file> ..]
-function trim_tab(){
-    local USAGE="usage: trim_tab <file> [<file> ..]"
+# usage: trim-tab <file> [<file> ..]
+function trim-tab(){
+    local USAGE="usage: trim-tab <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     which sponge >/dev/null
@@ -468,8 +471,8 @@ alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 alias webs='python -m SimpleHTTPServer'
 
 # Some files where notes, todos etc are collected + other house keeping
-alias todo='mdhelper "${HOME}"/todo.md'
-alias notes='mdhelper "${HOME}"/notes.md'
+alias todo='_mdhelper "${HOME}"/todo.md'
+alias notes='_mdhelper "${HOME}"/notes.md'
 alias hist='history -a; history -c; history -r'
 
 # Just for fun
@@ -498,6 +501,6 @@ if [ -d "${BASHCONFD}" ]; then
 fi
 
 # Make bash environment update easier
-alias re-bash='update_git_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
+alias re-bash='_update_git_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
 alias re-edit='${GUI_EDITOR} "${HOME}"/.bashrc &'
 
