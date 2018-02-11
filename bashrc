@@ -327,37 +327,6 @@ function xtop() {
     history | awk '{a[$2]++ } END{for(i in a){print a[i] " " i}}' | sort -rn | head -n $N;
 }
 
-# Search with google / open browser
-function @google {
-    xdg-open "https://google.com/search?q=$*"
-}
-
-# For completeness: search with duckduckgo.com / open browser
-function @duckduckgo {
-    xdg-open "https://duckduckgo.com/?q=$*"
-}
-
-# Search from sanakirja.org. Translate from Finnish to English
-function @sanakirja {
-    xdg-open "https://www.sanakirja.org/search.php?l=17&l2=3&q=$*"
-}
-
-# Search from sanakirja.org. Translate from English to Finnish
-function @dictionary {
-    xdg-open "https://www.sanakirja.org/search.php?l=3&l2=17&q=$*"
-}
-
-# Search from stackoverflow.com / open browser
-function @stackoverflow {
-    xdg-open "https://stackoverflow.com/search?q=$*"
-}
-
-# Search from haveibeenpwned.com
-function @pwned {
-    curl https://haveibeenpwned.com/api/v2/breachedaccount/$*?truncateResponse=true
-    echo ""
-}
-
 # Find all c and cpp src files in dir
 # usage: c-src [dir]
 function c-src {
@@ -388,9 +357,66 @@ function r-src {
     find ${SRC} -regex ".*\.[rR]"
 }
 
+
+################################################################################
+# Functions using external network services
+
+# Search with google / open browser
+function @google {
+    xdg-open "https://google.com/search?q=$*"
+}
+
+# For completeness: search with duckduckgo.com / open browser
+function @duckduckgo {
+    xdg-open "https://duckduckgo.com/?q=$*"
+}
+
+# Search from sanakirja.org. Translate from Finnish to English
+function @sanakirja {
+    xdg-open "https://www.sanakirja.org/search.php?l=17&l2=3&q=$*"
+}
+
+# Search from sanakirja.org. Translate from English to Finnish
+function @dictionary {
+    xdg-open "https://www.sanakirja.org/search.php?l=3&l2=17&q=$*"
+}
+
+# Search from stackoverflow.com / open browser
+function @stackoverflow {
+    [ $# -eq 0 ] && xdg-open "https://stackoverflow.com/" && return
+    xdg-open "https://stackoverflow.com/search?q=$*"
+}
+
+# Search from youtube.com
+function @yt {
+    [ $# -eq 0 ] && xdg-open "https://youtube.com/" && return
+    xdg-open "https://youtube.com/results?search_query=$*"
+}
+
+# Search from haveibeenpwned.com
+function @pwned {
+    [ $# -eq 0 ] && xdg-open "https://haveibeenpwned.com/" && return
+    curl "https://haveibeenpwned.com/api/v2/breachedaccount/$*?truncateResponse=true"
+    echo ""
+}
+
+# Open www.grc.com/shieldsup
+function @shieldsup {
+    xdg-open "https://www.grc.com/shieldsup"
+}
+
+# Get domain IP address
+function @ip-resolver {
+    local USAGE="usage: ip-resolver <domain-name> [<domain-name>..]"
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    [ $# -eq 0 ] && (>&2 echo $USAGE) && return
+    while [ "$1" != "" ]; do
+        echo "$1 " ; dig +short @resolver1.opendns.com $1 ; shift
+    done
+}
+
 # Get country / location information of an IP address
-# usage: ip-locator <ip> [<ip>..]
-function ip-locator {
+function @ip-locator {
     local USAGE="usage: ip-locator <ip> [<ip>..]"
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     curl ipinfo.io/$1 && shift
@@ -399,6 +425,7 @@ function ip-locator {
         shift
     done
 }
+
 
 ################################################################################
 # Aliases
@@ -435,9 +462,6 @@ alias mtop='top -o %MEM' #memory
 alias publicip='curl https://ifcfg.me/all'
 # alias publicip='curl http://ipinfo.io/ip'
 alias myip='hostname -I'
-alias getip='dig +short @resolver1.opendns.com'
-alias ipcountry='dig +short @resolver1.opendns.com'
-alias shieldsup='xdg-open https://www.grc.com/shieldsup'
 alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 
 # Quick HTTP/webserver for local files
@@ -450,7 +474,6 @@ alias hist='history -a; history -c; history -r'
 
 # Just for fun
 alias frak="fortune"
-alias yt="xdg-open https://youtube.com"
 
 
 ################################################################################
