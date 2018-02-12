@@ -154,8 +154,8 @@ function _mdhelper() {
 }
 
 # Update git repo. Tries to do 'git pull --rebase' if directory is a git repo
-# usage: _update_git_repo <dir>
-function _update_git_repo(){
+# usage: _git_update_repo <dir>
+function _git_update_repo(){
     if [ -d "$1" ]; then
         cd "$1"
         [ -d .git ] && git pull --rebase
@@ -501,6 +501,6 @@ if [ -d "${BASHCONFD}" ]; then
 fi
 
 # Make bash environment update easier
-alias re-bash='_update_git_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
+alias re-bash='_git_update_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
 alias re-edit='${GUI_EDITOR} "${HOME}"/.bashrc &'
 
