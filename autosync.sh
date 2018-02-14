@@ -33,12 +33,6 @@ function validate() {
     done
 }
 
-# Push the update to remote repository
-function update_remote() {
-    echo "update_remote"
-    [ -n ${PUSH} ] && echo git push
-}
-
 # Sync the git repositories
 function synchronize() {
     for repo in $@
@@ -46,8 +40,7 @@ function synchronize() {
         cd "$1"
         git pull --rebase
         git commit -a -m "Auto-commit"
-        local UPDATE=$?
-        [ "${UPDATE}" == "0" ] && update_remote
+        [ -n ${PUSH} ] && git push
         cd -
     done
 }
