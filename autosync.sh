@@ -18,9 +18,13 @@ function usage() {
     echo "This script synchronizes git repositories with remote. The steps"
     echo "taken are:"
     echo ""
-    echo "  git pull --rebase"
     echo "  git commit -a -m \"Auto-commit\""
+    echo "  git pull --rebase"
     echo "  git push"
+    echo ""
+    echo "To use this with crontab you can add something like this:"
+    echo ""
+    echo "  */10 8-18 * * 1-5 <path>/autosync.sh <repo1> <repo2> >/tmp/autosync.log 2>&1"
     echo ""
     exit 1
 }
@@ -37,9 +41,14 @@ function validate() {
 function synchronize() {
     for repo in $@
     do
-        cd "$1"
-        git pull --rebase
+        echo "================================"
+        echo "repo: ${repo}"
+        cd "${repo}"
+        echo "1: git commit -a -m \"Auto-commit\""
         git commit -a -m "Auto-commit"
+        echo "2: git pull --rebase"
+        git pull --rebase
+        echo "3: git push"
         [ -n ${PUSH} ] && git push
         cd -
     done
