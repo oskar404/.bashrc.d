@@ -121,6 +121,15 @@ function _howto_helper {
     echo ""
 }
 
+# Start $GUI_EDITOR if in X and $EDITOR if not
+function _edit() {
+    if xhost >& /dev/null ; then
+        ${GUI_EDITOR} $@ &
+    else
+        ${EDITOR} $@
+    fi
+}
+
 # View or edit markdown file
 # This uses mdv tool: https://github.com/axiros/terminal_markdown_viewer
 function _mdhelper() {
@@ -141,7 +150,7 @@ function _mdhelper() {
     done
 
     if [ "${EDIT}" == "e" ]; then
-        ${GUI_EDITOR} "${FILE}"&
+        _edit "${FILE}"
     else
         which mdv >/dev/null
         local MDV=$?
@@ -183,7 +192,7 @@ function howto {
     done
 
     if [ "${EDIT}" == "e" ]; then
-        ${GUI_EDITOR} "${FILE}"&
+        _edit "${FILE}"
     else
         if [ ! -e "${FILE}" ]; then
             echo "# How-to help" >${FILE}
@@ -440,7 +449,7 @@ alias gripc='c-src | xargs -d "\n" grep --color -Ii'
 alias grippy='py-src | xargs -d "\n" grep --color -Ii'
 alias gripr='r-src | xargs -d "\n" grep --color -Ii'
 alias lc='c-src | xargs -d "\n" cat | wc -l'
-alias e='${GUI_EDITOR}'
+alias e='_edit'
 alias scat='sudo cat'
 alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
 
