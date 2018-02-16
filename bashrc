@@ -131,14 +131,11 @@ function _mdhelper() {
     while [ "$1" != "" ]; do
         case "$1" in
           -e)
-            local EDIT="e"
-            ;;
+            local EDIT="e" ;;
           --edit)
-            local EDIT="e"
-            ;;
+            local EDIT="e" ;;
           *)
-            (>&2 echo $USAGE); return
-            ;;
+            (>&2 echo $USAGE); return ;;
         esac
         shift
     done
@@ -176,14 +173,11 @@ function howto {
     while [ "$1" != "" ]; do
         case "$1" in
           -e)
-            local EDIT="e"
-            ;;
+            local EDIT="e" ;;
           --edit)
-            local EDIT="e"
-            ;;
+            local EDIT="e" ;;
           *)
-            (>&2 echo $USAGE); return
-            ;;
+            (>&2 echo $USAGE); return ;;
         esac
         shift
     done
@@ -208,10 +202,9 @@ function loop {
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     case $1 in
       -h)
-        (>&2 echo $USAGE); return
-        ;;
+        (>&2 echo $USAGE); return ;;
       *)
-        local CNTR=$1
+        local CNTR=$1 ;;
     esac
     shift
 
@@ -244,13 +237,11 @@ function lcfile(){
     while [ "$1" != "" ]; do
         case "$1" in
           -h)
-            (>&2 echo $USAGE); return
-            ;;
+            (>&2 echo $USAGE); return ;;
           -r)
-            local DEPTH=""
-            ;;
+            local DEPTH="" ;;
           *)
-            local DIR=$1
+            local DIR=$1 ;;
         esac
         shift
     done
