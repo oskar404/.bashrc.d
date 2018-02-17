@@ -444,10 +444,7 @@ fi
 # Aliases for file and directory operations
 alias ll='ls -ltrh'
 alias la='ls -A'
-alias grip='grep --color -rIi'
-alias gripc='c-src | xargs -d "\n" grep --color -Ii'
-alias grippy='py-src | xargs -d "\n" grep --color -Ii'
-alias gripr='r-src | xargs -d "\n" grep --color -Ii'
+alias gr='grep --color -rIi'
 alias lc='c-src | xargs -d "\n" cat | wc -l'
 alias e='_edit'
 alias scat='sudo cat'
@@ -455,6 +452,9 @@ alias td='pushd $(mktemp -d)' # creates a temp dir and cds into it
 
 # Git aliases
 alias up='git up' # Use git alias
+alias st='git st' # Use git alias
+alias lol='git lol' # Use git alias
+alias gd='git diff'
 alias gt='qgit --all -n 10000' # Start git GUI
 alias gh='qgit -n 10000 HEAD' # Start git GUI
 
