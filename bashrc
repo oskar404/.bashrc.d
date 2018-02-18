@@ -119,6 +119,13 @@ function _howto_helper {
     local LIST=$(git config -l | grep alias | cut -c 7- | sort | awk -F "=" '{print $1}')
     printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
     echo ""
+    echo "# More About Commands"
+    echo ""
+    echo "  man <command>"
+    echo "  help <built-in>"
+    echo "  type [-a|-t] <command>"
+    echo "  command [-V] <command>"
+    echo ""
 }
 
 # Start $GUI_EDITOR if in X and $EDITOR if not
