@@ -403,6 +403,12 @@ function @pwned {
     echo ""
 }
 
+# Search from explainshell.com
+function @explain {
+    [ $# -eq 0 ] && xdg-open "https://explainshell.com/" && return
+    xdg-open "https://explainshell.com/explain?cmd=$*"
+}
+
 # Open www.grc.com/shieldsup
 function @shieldsup {
     xdg-open "https://www.grc.com/shieldsup"
