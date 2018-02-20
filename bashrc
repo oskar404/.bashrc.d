@@ -131,7 +131,11 @@ function _howto_helper {
 # Start $GUI_EDITOR if in X and $EDITOR if not
 function _edit() {
     if xhost >& /dev/null ; then
-        ${GUI_EDITOR} $@ &
+	if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+	    ${EDITOR} $@
+	else
+            ${GUI_EDITOR} $@ &
+	fi
     else
         ${EDITOR} $@
     fi
@@ -516,5 +520,5 @@ fi
 
 # Make bash environment update easier
 alias re-bash='_git_update_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
-alias re-edit='${GUI_EDITOR} "${HOME}"/.bashrc &'
+alias re-edit='_edit "${HOME}"/.bashrc'
 
