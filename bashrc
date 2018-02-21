@@ -425,6 +425,12 @@ function @shieldsup {
     xdg-open "https://www.grc.com/shieldsup"
 }
 
+
+# Open regex101.com (Other similar sites: regexr.com www.regexpal.com)
+function @regex101 {
+    xdg-open "https://regex101.com/"
+}
+
 # Get domain IP address
 function @ip-resolver {
     local USAGE="usage: ip-resolver <domain-name> [<domain-name>..]"
