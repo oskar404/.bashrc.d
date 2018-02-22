@@ -499,6 +499,10 @@ alias todo='_mdhelper "${HOME}"/todo.md'
 alias notes='_mdhelper "${HOME}"/notes.md'
 alias hist='history -a; history -c; history -r'
 
+# fslint aliases (sudo apt-get install fslint)
+alias fslint='/usr/share/fslint/fslint/fslint'
+alias findup='/usr/share/fslint/fslint/findup'
+
 # Just for fun
 alias frak="fortune"
 
