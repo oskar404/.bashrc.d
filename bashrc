@@ -414,6 +414,12 @@ function @pwned {
     echo ""
 }
 
+# Search from cppreference.com
+function @cppreference {
+    [ $# -eq 0 ] && xdg-open "https://en.cppreference.com/" && return
+    xdg-open "https://en.cppreference.com/mwiki/index.php?search=$*"
+}
+
 # Search from explainshell.com
 function @explain {
     [ $# -eq 0 ] && xdg-open "https://explainshell.com/" && return
