@@ -131,11 +131,11 @@ function _howto_helper {
 # Start $GUI_EDITOR if in X and $EDITOR if not
 function _edit() {
     if xhost >& /dev/null ; then
-	    if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
-	        ${EDITOR} $@
-	    else
+        if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+            ${EDITOR} $@
+        else
             ${GUI_EDITOR} $@ &
-	    fi
+        fi
     else
         ${EDITOR} $@
     fi
