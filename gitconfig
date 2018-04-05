@@ -10,6 +10,8 @@
     has = branch -a --contains
     done = branch -a --merged
     last = log -1 HEAD
+    lh = log --graph --decorate --pretty=oneline --abbrev-commit --max-count=20
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     rotten = for-each-ref --sort=committerdate refs/remotes/ --format='%(authordate)\t%(refname:short)::%(authorname)'
