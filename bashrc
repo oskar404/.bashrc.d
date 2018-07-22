@@ -153,9 +153,7 @@ function _mdhelper() {
     local EDIT="v"
     while [ "$1" != "" ]; do
         case "$1" in
-          -e)
-            local EDIT="e" ;;
-          --edit)
+          -e | --edit)
             local EDIT="e" ;;
           *)
             (>&2 echo $USAGE); return ;;
@@ -166,9 +164,7 @@ function _mdhelper() {
     if [ "${EDIT}" == "e" ]; then
         _edit "${FILE}"
     else
-        which mdv >/dev/null
-        local MDV=$?
-        [ "${MDV}" != "0" ] && (>&2 echo "missing mdv tool") && return
+        command -v mdv >/dev/null 2>&1 || { echo >&2 "missing mdv tool"; return; }
         [ -e "${FILE}" ] && (mdv -t 528.9419 ${FILE} | less -r -X -F) || (>&2 echo "missing file: ${FILE}")
     fi
 }
@@ -195,9 +191,7 @@ function howto {
     local EDIT="v"
     while [ "$1" != "" ]; do
         case "$1" in
-          -e)
-            local EDIT="e" ;;
-          --edit)
+          -e | --edit)
             local EDIT="e" ;;
           *)
             (>&2 echo $USAGE); return ;;
@@ -259,7 +253,7 @@ function lcfile(){
 
     while [ "$1" != "" ]; do
         case "$1" in
-          -h)
+          -h | --help)
             (>&2 echo $USAGE); return ;;
           -r)
             local DEPTH="" ;;
@@ -296,9 +290,7 @@ function trim-tab(){
     local USAGE="usage: trim-tab <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
-    which sponge >/dev/null
-    local EXIST=$?
-    [ "${EXIST}" != "0" ] && (>&2 echo "Missing sponge. Install moreutils") && return
+    command -v sponge >/dev/null 2>&1 || { echo >&2 "Missing sponge. Install moreutils"; return; }
     while [ "$1" != "" ]; do
         expand -t 4 "$1" | sponge "$1"
         shift
