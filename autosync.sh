@@ -10,22 +10,22 @@ REPOS=()
 PUSH="yes"
 
 function usage() {
-    echo "usage: ${SCRIPT} [-n] <git-dir> [<git-dir> ..]"
-    echo ""
-    echo "  -h/--help       Produce this help"
-    echo "  -n/--dry-run    Do all steps except do not push to remote"
-    echo ""
-    echo "This script synchronizes git repositories with remote. The steps"
-    echo "taken are:"
-    echo ""
-    echo "  git commit -a -m \"Auto-commit\""
-    echo "  git pull --rebase"
-    echo "  git push"
-    echo ""
-    echo "To use this with crontab you can add something like this:"
-    echo ""
-    echo "  */10 8-18 * * 1-5 <path>/autosync.sh <repo1> <repo2> >/tmp/autosync.log 2>&1"
-    echo ""
+    cat <<EOF
+usage: ${SCRIPT} [-n] <git-dir> [<git-dir> ..]
+
+  -h/--help       Produce this help
+  -n/--dry-run    Do all steps except do not push to remote
+
+This script synchronizes git repositories with remote. The steps taken are:
+
+  git commit -a -m \"Auto-commit\""
+  git pull --rebase"
+  git push"
+
+To use this with crontab you can add something like this:
+
+  */10 8-18 * * 1-5 <path>/autosync.sh <repo1> <repo2> >/tmp/autosync.log 2>&1
+EOF
     exit 1
 }
 
@@ -57,16 +57,10 @@ function synchronize() {
 # Handle args
 while [ "$1" != "" ]; do
     case "$1" in
-      -h)
+      -h | --help)
         usage
         ;;
-      --help)
-        usage
-        ;;
-      -n)
-        unset PUSH
-        ;;
-      --dry-run)
+      -n | --dry-run)
         unset PUSH
         ;;
       *)
