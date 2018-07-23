@@ -99,36 +99,38 @@ shopt -s globstar
 ################################################################################
 # Internal Helper Functions
 
-function _howto_helper {
-    echo ""
-    echo "# Functions"
-    echo ""
-    echo "To list function details: declare -f <function>"
-    echo ""
-    local LIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | grep -v in_array | grep -v quote | awk '{print $3}')
-    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
-    echo ""
-    echo "# Aliases"
-    echo ""
-    echo "To list alias details: alias <alias-name>"
-    echo ""
-    local LIST=$(alias | sort | awk -F "=" '{print $1}' | awk '{print $2}')
-    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
-    echo ""
-    echo "# Git Aliases"
-    echo ""
-    echo "To list git alias details: git config --get-regexp alias.<name>"
-    echo ""
-    local LIST=$(git config -l | grep alias | cut -c 7- | sort | awk -F "=" '{print $1}')
-    printf "  %-18s %-18s %-18s %-18s\n" ${LIST}
-    echo ""
-    echo "# More About Commands"
-    echo ""
-    echo "  man <command>"
-    echo "  help <built-in>"
-    echo "  type [-a|-t] <command>"
-    echo "  command [-V] <command>"
-    echo ""
+function _howto_helper() {
+    local FUNCLIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | grep -v in_array | grep -v quote | awk '{print $3}')
+    local ALIASLIST=$(alias | sort | awk -F "=" '{print $1}' | awk '{print $2}')
+    local GITLIST=$(git config -l | grep alias | cut -c 7- | sort | awk -F "=" '{print $1}')
+    cat <<EOF
+
+# Functions
+
+To list function details: declare -f <function>
+
+$(printf "  %-18s %-18s %-18s %-18s\n" ${FUNCLIST})
+
+# Aliases
+
+To list alias details: alias <alias-name>
+
+$(printf "  %-18s %-18s %-18s %-18s\n" ${ALIASLIST})
+
+# Git Aliases
+
+To list git alias details: git config --get-regexp alias.<name>
+
+$(printf "  %-18s %-18s %-18s %-18s\n" ${GITLIST})
+
+# More About Commands
+
+  man <command>
+  help <built-in>
+  type [-a|-t] <command>
+  command [-V] <command>
+
+EOF
 }
 
 # Start $GUI_EDITOR if in X and $EDITOR if not
@@ -171,7 +173,7 @@ function _mdhelper() {
 
 # Update git repo. Tries to do 'git pull --rebase' if directory is a git repo
 # usage: _git_update_repo <dir>
-function _git_update_repo(){
+function _git_update_repo() {
     if [ -d "$1" ]; then
         cd "$1"
         [ -d .git ] && git pull --rebase
@@ -185,7 +187,7 @@ function _git_update_repo(){
 
 # Print HOWTO help to screen
 # usage: howto [-e]
-function howto {
+function howto() {
     local USAGE="usage: howto [-e]"
     local FILE=${HOME}/howto.txt
     local EDIT="v"
@@ -213,7 +215,7 @@ function howto {
 
 # Loop command N-times. Fail if command return value is non-zero
 # usage: loop [-h] <counter> <path-to-program> [command args]
-function loop {
+function loop() {
     local USAGE="usage: loop [-h] <counter> <path-to-program> [command args]"
     local CNTR=0
     [ -z "$1" ] && (>&2 echo $USAGE) && return
@@ -236,7 +238,7 @@ function loop {
 
 # cd multiple levels down
 # usage: cdn <number>
-function cdn(){
+function cdn() {
     local LVL=${1:-0}
     local ARG=""
     for (( i=0; i<${LVL}; i++)); do
@@ -247,7 +249,7 @@ function cdn(){
 
 # Convert uppercase file and folder names to lower case.
 # usage: lcffile [-r] <dir>
-function lcfile(){
+function lcfile() {
     local USAGE="usage: lcfile [-r] <dir>"
     local DEPTH="-maxdepth 1"
 
@@ -277,7 +279,7 @@ function lcfile(){
 
 # Trim trailing whitespace
 # usage: trim-ws <file> [<file> ..]
-function trim-ws(){
+function trim-ws() {
     local USAGE="usage: trim-ws <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
@@ -286,7 +288,7 @@ function trim-ws(){
 
 # Replace tabs with spaces
 # usage: trim-tab <file> [<file> ..]
-function trim-tab(){
+function trim-tab() {
     local USAGE="usage: trim-tab <file> [<file> ..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
@@ -313,8 +315,7 @@ function genpin() {
 
 # Ceasar cipher / ROT-13
 # usage: rot13 [filename]
-function rot13()
-{
+function rot13() {
     if [  $# = 0 ]; then
         tr "[a-m][n-z][A-M][N-Z]" "[n-z][a-m][N-Z][A-M]"
     else
@@ -338,7 +339,7 @@ function xtop() {
 
 # Find all c and cpp src files in dir
 # usage: c-src [dir]
-function c-src {
+function c-src() {
     local USAGE="usage: c-src [dir]"
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     local SRC=.
@@ -348,7 +349,7 @@ function c-src {
 
 # Find all python src files in dir
 # usage: py-src [dir]
-function py-src {
+function py-src() {
     local USAGE="usage: py-src [dir]"
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     local SRC=.
@@ -358,7 +359,7 @@ function py-src {
 
 # Find all R src files in dir
 # usage: r-src [dir]
-function r-src {
+function r-src() {
     local USAGE="usage: r-src [dir]"
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
     local SRC=.
