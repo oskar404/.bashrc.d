@@ -100,7 +100,7 @@ shopt -s globstar
 # Internal Helper Functions
 
 function _howto_helper() {
-    local FUNCLIST=$(declare -F | grep -v "declare -f _" | grep -v command_not_found_handle | grep -v in_array | grep -v quote | awk '{print $3}')
+    local FUNCLIST=$(declare -F | grep -v -e 'declare -f _' -e 'command_not_found_handle' -e 'in_array' -e 'quote' | awk '{print $3}')
     local ALIASLIST=$(alias | sort | awk -F "=" '{print $1}' | awk '{print $2}')
     local GITLIST=$(git config -l | grep alias | cut -c 7- | sort | awk -F "=" '{print $1}')
     cat <<EOF
