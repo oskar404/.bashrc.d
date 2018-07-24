@@ -2,8 +2,7 @@
 The Bash Environment: .bashrc.d/
 ================================
 
-This is a collection of bash configurations which makes my terminal life
-enjoyable.
+This is a collection of bash configurations which makes terminal life enjoyable.
 
 Motivation
 ----------
@@ -12,7 +11,9 @@ When having multiple desktops and laptops the maintenance of the terminal
 environments gets tedious. The target for this is to have the same/similar
 environment available for all the computers.
 
-This configuration collection might be usefull for other bash users also.
+This configuration collection might be usefull for other bash users also. Note
+these configurations are tested only in few Ubuntu systems, so functionality
+might vary.
 
 Installation
 ------------
