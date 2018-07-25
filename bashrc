@@ -367,6 +367,18 @@ function r-src() {
     find ${SRC} -regex ".*\.[rR]"
 }
 
+# Validate JSON file(s)
+# usage: jsv <file.json> [<file.json>..]
+function jsv() {
+    local USAGE="usage: jsv <file.json> [<file.json>..]"
+    [ -z "$1" ] && (>&2 echo $USAGE) && return
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    while [ "$1" != "" ]; do
+        echo -n "$1: "
+        cat $1 | python -m json.tool >/dev/null && echo "OK"
+        shift
+    done
+}
 
 ################################################################################
 # Functions using external network services
@@ -426,7 +438,6 @@ function @explain {
 function @shieldsup {
     xdg-open "https://www.grc.com/shieldsup"
 }
-
 
 # Open regex101.com (Other similar sites: regexr.com www.regexpal.com)
 function @regex101 {
