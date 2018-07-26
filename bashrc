@@ -367,6 +367,16 @@ function r-src() {
     find ${SRC} -regex ".*\.[rR]"
 }
 
+# Find all JSON files in dir
+# usage: json-src [dir]
+function json-src() {
+    local USAGE="usage: json-src [dir]"
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    local SRC=.
+    [ -n "$1" ] && local SRC="$1"
+    find ${SRC} -iname "*.json"
+}
+
 # Validate JSON file(s)
 # usage: jsv <file.json> [<file.json>..]
 function jsv() {
