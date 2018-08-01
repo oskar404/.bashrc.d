@@ -18,9 +18,9 @@ usage: ${SCRIPT} [-n] <git-dir> [<git-dir> ..]
 
 This script synchronizes git repositories with remote. The steps taken are:
 
-  git commit -a -m \"Auto-commit\""
-  git pull --rebase"
-  git push"
+  git commit -a -m "Auto-commit: <file>.."
+  git pull --rebase
+  git push
 
 To use this with crontab you can add something like this:
 
@@ -44,8 +44,9 @@ function synchronize() {
         echo "================================"
         echo "repo: ${repo}"
         cd "${repo}"
-        echo "1: git commit -a -m \"Auto-commit\""
-        git commit -a -m "Auto-commit"
+        local message="Auto-commit: $(git status --untracked-files=no --porcelain | awk 'NR==1{print $2}').."
+        echo "1: git commit -a -m \"${message}\""
+        git commit -a -m "${message}"
         echo "2: git pull --rebase"
         git pull --rebase
         echo "3: git push"
