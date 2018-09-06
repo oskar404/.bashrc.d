@@ -454,6 +454,11 @@ function @regex101 {
     xdg-open "https://regex101.com/"
 }
 
+# Open tcpdump101.com
+function @tcpdump101 {
+    xdg-open "https://tcpdump101.com/"
+}
+
 # Get domain IP address
 function @ip-resolver {
     local USAGE="usage: ip-resolver <domain-name> [<domain-name>..]"
