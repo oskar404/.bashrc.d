@@ -248,7 +248,7 @@ function cdn() {
 }
 
 # Convert uppercase file and folder names to lower case.
-# usage: lcffile [-r] <dir>
+# usage: lcffile [-r] <dir>
 function lcfile() {
     local USAGE="usage: lcfile [-r] <dir>"
     local DEPTH="-maxdepth 1"

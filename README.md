@@ -25,7 +25,7 @@ your previous config files.
 
     $ git clone git@github.com:oskar404/.bashrc.d.git ~/.bashrc.d
     $ ln -s ~/.bashrc.d/bashrc ~/.bashrc
-    $ ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
+    $ ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
 
 The `bashrc` example sources all `~/.bashrc.d/*.conf` files found. The `bashrc`
 is self-contained so it can be simply copied as local file and modified.
