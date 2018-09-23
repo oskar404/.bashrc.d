@@ -18,6 +18,11 @@ might vary.
 Installation
 ------------
 
+Prerequisites are packages like git and bash-completion. In Ubunutu you can
+always install a meta-package build-essential. To install minimal requirements:
+
+    $ sudo apt install git bash-completion
+
 To install simply clone the repo into `~/.bashrc.d` directory and symlink the
 `bashrc` configuration files into home directory as `.bashrc` and symlink the
 `gitconfig` to home as `.gitconfig`. Just to be safe make backup copies of
