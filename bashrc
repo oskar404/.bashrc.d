@@ -460,6 +460,7 @@ function @tcpdump101 {
 }
 
 # Get domain IP address
+# Requires dig command. To install: sudo apt install dnsutils
 function @ip-resolver {
     local USAGE="usage: ip-resolver <domain-name> [<domain-name>..]"
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
@@ -528,7 +529,7 @@ alias todo='_mdhelper "${HOME}"/todo.md'
 alias notes='_mdhelper "${HOME}"/notes.md'
 alias hist='history -a; history -c; history -r'
 
-# fslint aliases (sudo apt-get install fslint)
+# fslint aliases (sudo apt install fslint)
 alias fslint='/usr/share/fslint/fslint/fslint'
 alias findup='/usr/share/fslint/fslint/findup'
 

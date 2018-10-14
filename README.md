@@ -18,7 +18,7 @@ might vary.
 Installation
 ------------
 
-Prerequisites are packages like git and bash-completion. In Ubunutu you can
+Prerequisites are packages like git and bash-completion. In Ubuntu you can
 always install a meta-package build-essential. To install minimal requirements:
 
     $ sudo apt install git bash-completion
@@ -42,6 +42,8 @@ information into file. See example below.
         email = user.name@example.com
         name = User Name
 
+Individual commands might need some additional packages. See the comments and
+code for the aliases, functions etc. for more information.
 
 Usage
 -----
