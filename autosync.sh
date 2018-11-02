@@ -31,7 +31,7 @@ EOF
 
 # Check that all references are git repositories
 function validate() {
-    for repo in $@
+    for repo in "$@"
     do
         [ ! -d "${repo}"/.git ] && echo "Invalid git repo: ${repo}" && exit 3
     done
@@ -39,19 +39,19 @@ function validate() {
 
 # Sync the git repositories
 function synchronize() {
-    for repo in $@
+    for repo in "$@"
     do
         echo "================================"
         echo "repo: ${repo}"
-        cd "${repo}"
+        pushd "${repo}"
         local message="Auto-commit: $(git status --untracked-files=no --porcelain | awk 'NR==1{print $2}').."
         echo "1: git commit -a -m \"${message}\""
         git commit -a -m "${message}"
         echo "2: git pull --rebase"
         git pull --rebase
         echo "3: git push"
-        [ -n ${PUSH} ] && git push
-        cd -
+        [[ -n ${PUSH} ]] && git push
+        popd
     done
 }
 
@@ -72,6 +72,6 @@ done
 
 [ ${#REPOS[@]} -eq 0 ] && echo "No git repos defined" && exit 2
 
-validate ${REPOS[@]}
-synchronize ${REPOS[@]}
+validate "${REPOS[@]}"
+synchronize "${REPOS[@]}"
 
