@@ -18,10 +18,11 @@ might vary.
 Installation
 ------------
 
-Prerequisites are packages like git and bash-completion. In Ubuntu you can
-always install a meta-package build-essential. To install minimal requirements:
+Minimal prerequisites are Posix utilities and git and bash-completion packages.
+In Ubuntu you can always install a meta-package build-essential. To install
+minimal requirements:
 
-    $ sudo apt install git bash-completion
+    $ sudo apt install git bash-completion python3
 
 To install simply clone the repo into `~/.bashrc.d` directory and symlink the
 `bashrc` configuration files into home directory as `.bashrc` and symlink the
