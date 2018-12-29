@@ -383,9 +383,10 @@ function jsv() {
     local USAGE="usage: jsv <file.json> [<file.json>..]"
     [ -z "$1" ] && (>&2 echo $USAGE) && return
     [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    command -v python3 >/dev/null 2>&1 || { echo >&2 "Missing python3 command"; return; }
     while [ "$1" != "" ]; do
         echo -n "$1: "
-        cat $1 | python -m json.tool >/dev/null && echo "OK"
+        cat $1 | python3 -m json.tool >/dev/null && echo "OK"
         shift
     done
 }
@@ -522,7 +523,7 @@ alias myip='hostname -I'
 alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
 
 # Quick HTTP/webserver for local files
-alias webs='python -m SimpleHTTPServer'
+alias webs='python3 -m http.server'
 
 # Some files where notes, todos etc are collected + other house keeping
 alias todo='_mdhelper "${HOME}"/todo.md'
