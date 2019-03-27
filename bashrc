@@ -41,7 +41,7 @@ if ! shopt -oq posix; then
 fi
 
 # pipenv (only if pipenv is installed)
-command -v pipenv >/dev/null 2>&1 && eval "$(pipenv --completion)"
+#command -v pipenv >/dev/null 2>&1 && eval "$(pipenv --completion)"
 
 # Ignored file extensions in command completion
 export FIGNORE='.pyc:.o:.os'
