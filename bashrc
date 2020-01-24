@@ -460,6 +460,10 @@ function @tcpdump101 {
     xdg-open "https://tcpdump101.com/"
 }
 
+function @python.org {
+    xdg-open "https://docs.python.org/3/"
+}
+
 # Get domain IP address
 # Requires dig command. To install: sudo apt install dnsutils
 function @ip-resolver {
