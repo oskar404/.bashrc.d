@@ -299,6 +299,17 @@ function trim-tab() {
     done
 }
 
+# Cunningham’s signature analysis: http://www.c2.com/doc/SignatureSurvey/
+# Script copied from book: 97 Things Every Programmer Should Know
+# usage: code-analysis <file> [<file> ..]
+function code-analysis {
+    for i in $@; do
+        echo -n "$i: "
+        sed 's/[^"{};]//g' $i | tr -d '\n'
+        echo
+    done
+}
+
 # Generate a random password
 # usage: genpasswd [length]
 function genpasswd() {
