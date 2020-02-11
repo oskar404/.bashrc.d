@@ -475,6 +475,11 @@ function @python.org {
     xdg-open "https://docs.python.org/3/"
 }
 
+function @pythontutor {
+    xdg-open "http://pythontutor.com/"
+}
+
+
 # Get domain IP address
 # Requires dig command. To install: sudo apt install dnsutils
 function @ip-resolver {
