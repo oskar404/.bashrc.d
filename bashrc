@@ -270,6 +270,29 @@ function lcfile() {
     done
 }
 
+# Convert spaces in file names to underscore
+# usage: usfile <file> [<file>..]
+function usfile() {
+    local USAGE="usage: usfile <file> [<file>..]"
+
+    [ "$1" = "" ] && (>&2 echo $USAGE) && return
+    [ "$1" = "-h" ] && (>&2 echo $USAGE) && return
+    [ "$1" = "--help" ] && (>&2 echo $USAGE) && return
+
+    while [ "$1" != "" ]; do
+        if [ -e "$1" ]; then
+            local DST=$(dirname "$1")/$(basename "$1" | tr '[:blank:]' '[_]')
+            if [ "$1" != "${DST}" ]
+            then
+                [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
+            fi
+        else
+            (>&2 echo "invalid file: $1")
+        fi
+        shift
+    done
+}
+
 # Trim trailing whitespace
 # usage: trim-ws <file> [<file> ..]
 function trim-ws() {
