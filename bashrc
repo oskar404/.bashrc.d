@@ -247,33 +247,26 @@ function cdn() {
     cd "${ARG:-$HOME}"
 }
 
-# Convert uppercase file and folder names to lower case.
-# usage: lcffile [-r] <dir>
+# Convert uppercase file names to lower case.
+# usage: lcfile <file> [<file>..]
 function lcfile() {
-    local USAGE="usage: lcfile [-r] <dir>"
-    local DEPTH="-maxdepth 1"
+    local USAGE="usage: lcfile <file> [<file>..]"
+
+    [ "$1" = "" ] && (>&2 echo $USAGE) && return
+    [ "$1" = "-h" ] && (>&2 echo $USAGE) && return
+    [ "$1" = "--help" ] && (>&2 echo $USAGE) && return
 
     while [ "$1" != "" ]; do
-        case "$1" in
-          -h | --help)
-            (>&2 echo $USAGE); return ;;
-          -r)
-            local DEPTH="" ;;
-          *)
-            local DIR=$1 ;;
-        esac
-        shift
-    done
-
-    [ -z "${DIR}" ] && (>&2 echo $USAGE) && return
-
-    for SRC in $(find ${DIR} -depth ${DEPTH}); do
-        DST=$(dirname "${SRC}")/$(basename "${SRC}" | tr '[A-Z]' '[a-z]')
-        if [ "${SRC}" != "${DST}" ]
-        then
-            echo ${DST}
-            [ ! -e "${DST}" ] && mv -T "${SRC}" "${DST}" || (>&2 echo "${SRC} was not renamed")
+        if [ -e "$1" ]; then
+            local DST=$(dirname "$1")/$(basename "$1" | tr '[A-Z]' '[a-z]')
+            if [ "$1" != "${DST}" ]
+            then
+                [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
+            fi
+        else
+            (>&2 echo "invalid file: $1")
         fi
+        shift
     done
 }
 
