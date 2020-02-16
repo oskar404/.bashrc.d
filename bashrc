@@ -259,9 +259,7 @@ function lcfile() {
     while [ "$1" != "" ]; do
         if [ -e "$1" ]; then
             local DST=$(dirname "$1")/$(basename "$1" | tr '[A-Z]' '[a-z]')
-            if [ "$1" != "${DST}" ]; then
-                [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
-            fi
+            [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
         else
             (>&2 echo "invalid file: $1")
         fi
@@ -281,9 +279,7 @@ function usfile() {
     while [ "$1" != "" ]; do
         if [ -e "$1" ]; then
             local DST=$(dirname "$1")/$(basename "$1" | tr '[:blank:]' '[_]')
-            if [ "$1" != "${DST}" ]; then
-                [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
-            fi
+            [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
         else
             (>&2 echo "invalid file: $1")
         fi
