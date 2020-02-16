@@ -287,6 +287,37 @@ function usfile() {
     done
 }
 
+# Replace substring in file names
+# usage: rsfile <search-str> <replace> <file> [<file>..]
+function rsfile() {
+    local USAGE="usage: rsfile <search-str> <replace-str> <file> [<file>..]"
+    local sstr=""
+    local rstr=""
+
+    while [ "${rstr}" == "" ]; do
+        [ "$1" = "" ] && (>&2 echo $USAGE) && return
+        [ "$1" = "-h" ] && (>&2 echo $USAGE) && return
+        [ "$1" = "--help" ] && (>&2 echo $USAGE) && return
+        if [ "${sstr}" == "" ]; then
+            sstr="$1"
+        else
+            rstr="$1"
+        fi
+        shift
+    done
+
+    while [ "$1" != "" ]; do
+        if [ -e "$1" ]; then
+            local FNAME=$(basename "$1")
+            local DST=$(dirname "$1")/${FNAME/${sstr}/${rstr}}
+            [ ! -e "${DST}" ] && mv -T "$1" "${DST}" || (>&2 echo "rename fail: $1")
+        else
+            (>&2 echo "invalid file: $1")
+        fi
+        shift
+    done
+}
+
 # Trim trailing whitespace
 # usage: trim-ws <file> [<file> ..]
 function trim-ws() {
