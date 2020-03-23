@@ -571,7 +571,7 @@ alias lol='git lol' # Use git alias
 alias lh='git lh' # Use git alias
 alias gd='git diff'
 alias gt='qgit --all -n 10000' # Start git GUI
-alias gh='qgit -n 10000 HEAD' # Start git GUI
+alias gh='qgit -n 10000 HEAD origin/master master' # Start git GUI
 
 # Process aliases
 alias ctop='top -o %CPU' #cpu
