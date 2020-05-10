@@ -318,6 +318,18 @@ function rsfile() {
     done
 }
 
+# Remove non ascii chars (usable for log cleaning)
+# usage: ascify <file> [<file> ..]
+function ascify() {
+    local USAGE="usage: ascify <file> [<file> ..]"
+    [ -z "$1" ] && (>&2 echo $USAGE) && return
+    [ "$1" == "-h" ] && (>&2 echo $USAGE) && return
+    while [ "$1" != "" ]; do
+        tr -cd '\11\12\15\40-\176' <$1
+        shift
+    done
+}
+
 # Trim trailing whitespace
 # usage: trim-ws <file> [<file> ..]
 function trim-ws() {
