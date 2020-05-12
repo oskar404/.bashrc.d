@@ -15,16 +15,25 @@ esac
 ################################################################################
 # Path
 
-# set PATH so it includes user's private bin if it exists
+# Set PATH so it local Python3 binaries
+if [ -d "$(python -m site --user-base)/bin" ]; then
+    PYBIN="$(python -m site --user-base)/bin"
+    if [ "${PATH/$PYBIN}" == "$PATH" ]; then
+        # Not set yet. Add the path
+        PATH="$PYBIN:$PATH"
+    fi
+    unset PYBIN
+fi
+
+# Set PATH to includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
     MYBIN=$HOME/bin
     if [ "${PATH/$MYBIN}" == "$PATH" ]; then
         # Not set yet. Add the path
-        PATH="$HOME/bin:$PATH"
+        PATH="$MYBIN:$PATH"
     fi
     unset MYBIN
 fi
-
 
 ################################################################################
 # Command completion
