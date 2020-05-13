@@ -16,8 +16,8 @@ esac
 # Path
 
 # Set PATH so it local Python3 binaries
-if [ -d "$(python -m site --user-base)/bin" ]; then
-    PYBIN="$(python -m site --user-base)/bin"
+if [ -d "$(python3 -m site --user-base)/bin" ]; then
+    PYBIN="$(python3 -m site --user-base)/bin"
     if [ "${PATH/$PYBIN}" == "$PATH" ]; then
         # Not set yet. Add the path
         PATH="$PYBIN:$PATH"
