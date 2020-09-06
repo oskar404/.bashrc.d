@@ -599,7 +599,8 @@ alias ctop='top -o %CPU' #cpu
 alias mtop='top -o %MEM' #memory
 
 # Network aliases
-alias publicip='curl https://ifcfg.me/all'
+alias publicip='curl http://ip4only.me/api/'
+# alias publicip='curl https://ifcfg.me/all'
 # alias publicip='curl http://ipinfo.io/ip'
 alias myip='hostname -I'
 alias dnstest='while true; do dig www.google.com | grep time; sleep 2; done'
