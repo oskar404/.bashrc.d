@@ -1,17 +1,20 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 # Sync git repositories
 #
 # This script is intended to be used with crontab
-#
 
-SCRIPT=$(basename "$0")
-REPOS=()
-PUSH="yes"
+script_name=$(basename "$0")
+sync_repos=()
+push_repos="yes"
+
+function die() {
+    echo "${@}" 1>&2
+    exit 1
+}
 
 function usage() {
     cat <<EOF
-usage: ${SCRIPT} [-n] <git-dir> [<git-dir> ..]
+usage: ${script_name} [-n] <git-dir> [<git-dir> ..]
 
   -h/--help       Produce this help
   -n/--dry-run    Do all steps except do not push to remote
@@ -24,13 +27,33 @@ This script synchronizes git repositories with remote. The steps taken are:
 
 To use this with crontab you can add something like this:
 
-  */10 8-18 * * 1-5 <path>/autosync.sh <repo1> <repo2> >/tmp/autosync.log 2>&1
+  */10 8-18 * * 1-5 <path>/autosync <repo1> <repo2> >/tmp/autosync.log 2>&1
 EOF
     exit 1
 }
 
+function parse_args() {
+    while [[ $# -gt 0 ]]; do
+        local __option="${1:-}"
+
+        case "${__option}" in
+            -h | --help)
+                usage
+                ;;
+            -n | --dry-run)
+                unset push_repos
+                ;;
+            *)
+                sync_repos=("${sync_repos[@]}" "$1")
+                ;;
+        esac
+        shift
+    done
+    [[ ${#sync_repos[@]} -eq 0 ]] && die "No git repos defined"
+}
+
 # Check that all references are git repositories
-function validate() {
+function validate_repos() {
     for repo in "$@"
     do
         [ ! -d "${repo}"/.git ] && echo "Invalid git repo: ${repo}" && exit 3
@@ -38,7 +61,7 @@ function validate() {
 }
 
 # Sync the git repositories
-function synchronize() {
+function synchronize_repos() {
     for repo in "$@"
     do
         echo "================================"
@@ -50,28 +73,18 @@ function synchronize() {
         echo "2: git pull --rebase"
         git pull --rebase
         echo "3: git push"
-        [[ -n ${PUSH} ]] && git push
+        [[ -n ${push_repos} ]] && git push
         popd
     done
 }
 
-# Handle args
-while [ "$1" != "" ]; do
-    case "$1" in
-      -h | --help)
-        usage
-        ;;
-      -n | --dry-run)
-        unset PUSH
-        ;;
-      *)
-        REPOS=("${REPOS[@]}" "$1")
-    esac
-    shift
-done
+main() {
+    parse_args "$@"
+    validate_repos "${sync_repos[@]}"
+    synchronize_repos "${sync_repos[@]}"
+}
 
-[ ${#REPOS[@]} -eq 0 ] && echo "No git repos defined" && exit 2
-
-validate "${REPOS[@]}"
-synchronize "${REPOS[@]}"
+if [[ "${0}" == "${BASH_SOURCE}" ]]; then
+    main "$@"
+fi
 
