@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# Setup script to help installation of .bashrc.d/
+#
+set -o errexit   # Exit on non-zero return value
+set -o nounset   # Exit on uninitialized variable
+set -o pipefail  # Exit on failure inside piped statement
+set -o errtrace  # Inherit exit traps
+[[ "${TRACE:-}" ]] && set -o xtrace
+
+# Print helpful error on script exit
+trap 'echo "Aborting due to errexit on line ${LINENO}. Exit code: $?" >&2' ERR
+
+minimal_deps=('bash' 'bash-completion' 'git' 'python3')
+extra_packages=(
+    'terminator' 'tmux'
+    'build-essential' 'clang' 'gcc' 'g++' 'gdb'
+    'tig' 'python3-pip'
+)
+
+function die() {
+    echo "${@}" 1>&2
+    exit 1
+}
+
+function status() {
+    echo -e "\033[1msetup:\033[0m $@"
+}
+
+function usage() {
+    cat << EOF
+USAGE: $0 [-h] [-m]
+
+Setup .bashrc.d configuration. Copy/link configuration files to correct
+paths. Install needed dependencies.
+
+Arguments:
+    -h, --help      Produces this help
+    -e, --extra     Install extra packages. Personal preferences and
+                    not essiantial for .bashrc.d
+
+Script requires sudo rights to be able install the dependencies.
+Script is designed to work in Debian/Ubuntu based systems.
+
+EOF
+}
+
+function parse_args() {
+    while [[ $# -gt 0 ]]; do
+        local __option="${1:-}"
+
+        case "${__option}" in
+            -h | --help)
+                usage
+                exit 0
+                ;;
+            -e | --extra)
+                arg_extra=1
+                ;;
+            *)
+                die "Invalid option: ${__option}"
+                ;;
+        esac
+        shift
+    done
+}
+
+function install_minimal_deps() {
+    status "minimal dependencies: ${minimal_deps[@]}"
+    sudo apt-get --yes -qq update
+    sudo apt-get --yes --quiet install ${minimal_deps[@]}
+}
+
+function install_configs() {
+    status "install .bashrc"
+    [[ -f ~/.bashrc ]] && mv ~/.bashrc ~/.bashrc.$(date +%Y%m%d%H%M%S)
+    ln -s ~/.bashrc.d/bashrc ~/.bashrc
+    status "install .gitconfig"
+    [[ -f ~/.gitconfig ]] && mv ~/.gitconfig ~/.gitconfig.$(date +%Y%m%d%H%M%S)
+    ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
+    [[ -f ~/.bashrc.d/gitconfig.user ]] && return
+    status "create .bashrc.d/gitconfig.user template"
+    cat >~/.bashrc.d/gitconfig.user << EOF
+[user]
+    email = user.name@example.com
+    name = User Name
+EOF
+}
+
+function install_extra_packages() {
+    [[ -z "${arg_extra:-}" ]] && return
+    status "extra packages: ${extra_packages[@]}"
+    sudo apt-get --yes --quiet install ${extra_packages[@]}
+}
+
+main() {
+    parse_args "$@"
+    install_minimal_deps
+    install_configs
+    install_extra_packages
+}
+
+if [[ "${0}" == "${BASH_SOURCE}" ]]; then
+    main "$@"
+fi

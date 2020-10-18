@@ -18,11 +18,19 @@ might vary. Contents of the setup is personal preference.
 Installation
 ------------
 
+There is a `setup` script in this repository which makes installation in Debian
+or Ubuntu systems easy. Just clone repository and run the `setup`
+
+    $ git clone git@github.com:oskar404/.bashrc.d.git ~/.bashrc.d
+    $ ~/.bashrc.d/setup
+
+On other systems more manual setup is needed.
+
 Minimal prerequisites are Posix utilities and git and bash-completion packages.
 In Ubuntu you can always install a meta-package build-essential. To install
 minimal requirements:
 
-    $ sudo apt install git bash-completion python3
+    $ sudo apt install bash bash-completion git python3
 
 To install simply clone the repo into `~/.bashrc.d` directory and symlink the
 `bashrc` configuration files into home directory as `.bashrc` and symlink the
