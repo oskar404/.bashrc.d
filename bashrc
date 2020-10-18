@@ -4,36 +4,25 @@
 # Prepare the bash environment: PATH, completion, history, prompt etc
 #
 
-
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
+[ -z "$PS1" ] && return
 
 ################################################################################
 # Path
 
-# Set PATH so it local Python3 binaries
-if [ -d "$(python3 -m site --user-base)/bin" ]; then
-    PYBIN="$(python3 -m site --user-base)/bin"
-    if [ "${PATH/$PYBIN}" == "$PATH" ]; then
-        # Not set yet. Add the path
-        PATH="$PYBIN:$PATH"
+# Add path to PATH if path exists and not in PATH
+function _bashrc_add_path() {
+    local NEWPATH=$1
+    if [ -d "${NEWPATH}" ]; then
+        if [ "${PATH/$NEWPATH}" == "$PATH" ]; then
+            # Not set yet. Add the path
+            PATH="$NEWPATH:$PATH"
+        fi
     fi
-    unset PYBIN
-fi
+}
 
-# Set PATH to includes user's private bin if it exists
-if [ -d "$HOME/bin" ]; then
-    MYBIN=$HOME/bin
-    if [ "${PATH/$MYBIN}" == "$PATH" ]; then
-        # Not set yet. Add the path
-        PATH="$MYBIN:$PATH"
-    fi
-    unset MYBIN
-fi
+_bashrc_add_path "$(python3 -m site --user-base)/bin"
+_bashrc_add_path "${HOME}/bin"
 
 ################################################################################
 # Command completion
@@ -49,12 +38,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# pipenv (only if pipenv is installed)
-#command -v pipenv >/dev/null 2>&1 && eval "$(pipenv --completion)"
-
 # Ignored file extensions in command completion
 export FIGNORE='.pyc:.o:.os'
-
 
 ################################################################################
 # History
@@ -70,7 +55,6 @@ export HISTIGNORE='ls:ll:la:lc:cd:gt:up:todo:exit:clear:hist:history'
 shopt -s histappend
 shopt -s cmdhist
 shopt -u lithist
-
 
 ################################################################################
 # Environment
@@ -99,11 +83,10 @@ export GUI_EDITOR=gedit
 # Fix perl locale problem (git uses perl)
 export LC_ALL=en_US.UTF-8
 
-# Imrpove interactive usage of the shell with some glob
+# Improve interactive usage of the shell with some glob
 shopt -s cdspell
 shopt -s dirspell
 shopt -s globstar
-
 
 ################################################################################
 # Internal Helper Functions
@@ -189,7 +172,6 @@ function _git_update_repo() {
         cd -
     fi
 }
-
 
 ################################################################################
 # Public Functions
@@ -541,7 +523,6 @@ function @pythontutor {
     xdg-open "http://pythontutor.com/"
 }
 
-
 # Get domain IP address
 # Requires dig command. To install: sudo apt install dnsutils
 function @ip-resolver {
@@ -563,7 +544,6 @@ function @ip-locator {
         shift
     done
 }
-
 
 ################################################################################
 # Aliases
@@ -625,7 +605,6 @@ alias codecheck='cppcheck -j4 --enable=warning,performance,portability,style --i
 # Just for fun
 alias frak="fortune"
 
-
 ################################################################################
 # External configs
 
@@ -649,5 +628,3 @@ fi
 
 # Make bash environment update easier
 alias re-bash='_git_update_repo ${BASHCONFD} &> /dev/null; source "${HOME}"/.bashrc'
-alias re-edit='_edit "${HOME}"/.bashrc'
-
