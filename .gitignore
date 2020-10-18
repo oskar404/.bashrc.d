@@ -1,2 +1,7 @@
+# Ignore personal configs (non public)
 /*.conf
 /gitconfig.user
+
+# Ignore VisualStudio Code project files
+/*.code-workspace
+/.vscode/
