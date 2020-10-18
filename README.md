@@ -59,9 +59,13 @@ Usage
 To see what the `bashrc` contains there is a `howto` command which lists the
 functions and aliases:
 
-    howto
+    $ howto
 
 To add own local help and notes the `howto.txt` file can be edited:
 
-    howto -e
+    $ howto -e
 
+The `autosync` utility provides means automatically syncronize git repositories
+with remote. For more help run command
+
+    $ autosync --help
