@@ -13,7 +13,7 @@ environment available for all the computers.
 
 This configuration collection might be usefull for other bash users also. Note
 these configurations are tested only in few Ubuntu systems, so functionality
-might vary.
+might vary. Contents of the setup is personal preference.
 
 Installation
 ------------
@@ -33,8 +33,7 @@ your previous config files.
     $ ln -s ~/.bashrc.d/bashrc ~/.bashrc
     $ ln -s ~/.bashrc.d/gitconfig ~/.gitconfig
 
-The `bashrc` example sources all `~/.bashrc.d/*.conf` files found. The `bashrc`
-is self-contained so it can be simply copied as local file and modified.
+The `bashrc` file sources all `~/.bashrc.d/*.conf` configuration files.
 
 The `gitconfig` sources `~/.bashrc.d/gitconfig.user` file. Add your user
 information into file. See example below.
