@@ -92,13 +92,15 @@ function install_extra_packages() {
     sudo apt-get --yes --quiet install ${extra_packages[@]}
 }
 
-main() {
+function main() {
     parse_args "$@"
     install_minimal_deps
     install_configs
     install_extra_packages
 }
 
+# Run only when excuted as command
 if [[ "${0}" == "${BASH_SOURCE}" ]]; then
     main "$@"
 fi
+

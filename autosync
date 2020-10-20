@@ -78,12 +78,13 @@ function synchronize_repos() {
     done
 }
 
-main() {
+function main() {
     parse_args "$@"
     validate_repos "${sync_repos[@]}"
     synchronize_repos "${sync_repos[@]}"
 }
 
+# Run only when excuted as command
 if [[ "${0}" == "${BASH_SOURCE}" ]]; then
     main "$@"
 fi
