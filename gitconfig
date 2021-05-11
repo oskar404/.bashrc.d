@@ -6,7 +6,7 @@
 [alias]
     st = status
     rl = log --graph --pretty=format:'%h - %an :%Cgreen%d%Creset %s'
-    up = fetch --all --prune --tags
+    up = fetch --all --tags --force --prune
     has = branch -a --contains
     done = branch -a --merged
     last = log -1 HEAD
