@@ -69,3 +69,12 @@ The `autosync` utility provides means automatically syncronize git repositories
 with remote. For more help run command
 
     $ autosync --help
+
+Things to Improve
+-----------------
+
+Incorporate the CAPS lock disabling to configs. Figure out how this could be
+used:
+
+    setxkbmap -option caps:none
+
