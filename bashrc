@@ -72,7 +72,7 @@ if [ "$(uname)" == "Darwin" ]; then
     PS1="\h:\w: "
 else
     export GIT_PS1_SHOWDIRTYSTATE=1
-    PS1="\h:\w\$(__git_ps1): "
+    PS1="\[\e[34m\]\w\[\e[m\]\$(__git_ps1): "
 fi
 
 # Default editors
