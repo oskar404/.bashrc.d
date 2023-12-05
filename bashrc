@@ -601,6 +601,7 @@ alias changelog="xargs -I% -- zless /usr/share/doc/%/changelog.gz <<<"
 
 # Code utils
 alias codecheck='cppcheck -j4 --enable=warning,performance,portability,style --inline-suppr --quiet'
+alias github='/usr/bin/gh'
 
 # Just for fun
 alias frak="fortune"
