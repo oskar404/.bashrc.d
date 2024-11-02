@@ -78,3 +78,7 @@ used:
 
     setxkbmap -option caps:none
 
+or same effect using with gsettings:
+
+    gsettings set org.gnome.desktop.input-sources xkb-options "['caps:none']"
+
